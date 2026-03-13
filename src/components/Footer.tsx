@@ -50,7 +50,7 @@ export default function Footer() {
             
             <Magnetic>
               <a 
-                href="/resume/Dhruvin_Patel.pdf"
+                href="/Resume/Dhruvin_Patel.pdf"
                 download="Dhruvin_Patel_CV.pdf"
                 className="group relative flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-zinc-900 border border-zinc-700 text-white font-black text-lg hover:bg-zinc-800 transition-colors duration-300 overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.02)]"
               >

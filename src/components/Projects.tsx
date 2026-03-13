@@ -10,7 +10,7 @@ const PROJECTS = [
     category: "Python, TensorFlow, Flask",
     description: "DeepFake Detection is a Flask‑based web application that classifies face images as Real or Deepfake and explains why. Preprocesses images by resizing to 224×224 and normalizing them, then runs a pre‑trained deepfake model indicating probability. If classified as Deepfake, it uses MediaPipe Face Mesh, Pose and Hands to analyze landmarks, scanning for colour inconsistencies across regions. Option to draw bounding boxes and create heatmaps to highlight suspicious areas. API returns JSON with label, confidence score, text, and diagnostic images.",
     techstack: ["Python", "TensorFlow", "Keras", "Flask", "MediaPipe", "OpenCV", "NumPy", "Matplotlib", "Seaborn", "Werkzeug"],
-    image: "/projects/deepfake.png",
+    image: "/Projects/deepfake.png",
     link: "https://huggingface.co/spaces/dhruvin-patel/DeepFake-Image-Detector",
     color: "from-emerald-600 to-teal-500",
     icon: ExternalLink
@@ -21,7 +21,7 @@ const PROJECTS = [
     category: "YOLOv8, SAM, React",
     description: "Full‑stack web application for intelligent object detection and extraction from images. The /detect endpoint uses YOLOv8 to detect objects and returns bounding boxes. The /extract endpoint crops the region, passes it to SAM to generate candidate masks, and returns an extracted object with a transparent background along with AI/ML facts. The /refine endpoint lets users refine the mask (red/green points) and recomputes a smoothed map via Gaussian blur. React frontend integrated with Flask API.",
     techstack: ["Flask", "YOLOv8", "SAM", "OpenCV", "NumPy", "PyTorch", "React", "MUI", "Emotion"],
-    image: "/projects/ai4image.png",
+    image: "/Projects/ai4image.png",
     link: "https://huggingface.co/spaces/dhruvin-patel/aies-object-extractor",
     color: "from-purple-600 to-pink-500",
     icon: Sparkles
@@ -32,7 +32,7 @@ const PROJECTS = [
     category: "Python, Flask, Multi-Agent",
     description: "Multi‑agent AI platform that generates complete, production‑ready projects from a single prompt. Simple Mode for smaller scripts, Advanced Mode for enterprise-grade projects. Project Manager routes prompts. Advanced mode uses PlannerAgent, ResearchAgent, DataEngineerAgent, MLEngineerAgent, ReviewerAgent, and DocumentationAgent working collaboratively to design UI, models, logic, testing and outputs. The backend writes projects to generated_projects/ and streams progress to a React + Vite frontend via Socket.IO.",
     techstack: ["Flask", "Socket.IO", "React", "Vite", "Gemini 2.0 Flash", "Pandas", "NumPy", "FAISS", "Tailwind CSS"],
-    image: "/projects/synexor.png",
+    image: "/Projects/synexor.png",
     link: "https://github.com/dhruvinhet",
     color: "from-blue-600 to-cyan-500",
     icon: Github
@@ -43,7 +43,7 @@ const PROJECTS = [
     category: "Python, FAISS, LLMs",
     description: "Streamlit‑based Multi‑Document AI Assistant for RAG–style QA. File & image upload parses PDF, DOCX, PPTX, TXT. Images are handled with Tesseract and EasyOCR. Extracted text combines with explicit [SOURCE: filename] tags. It splits text using RecursiveCharacterTextSplitter and stores them via FAISS + HuggingFace embeddings. QA matches users query to chunks, passing them to an Ollama llama3 LLM via LangChain (load_qa_chain). Sidebar displays system resources like GPU availability.",
     techstack: ["Streamlit", "PyPDF2", "python-docx", "pytesseract", "LangChain", "HuggingFace", "FAISS", "Ollama (llama3)"],
-    image: "/projects/rag.png",
+    image: "/Projects/rag.png",
     link: "https://dhruvinhet-rag.streamlit.app/",
     color: "from-amber-500 to-orange-500",
     icon: ExternalLink

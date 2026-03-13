@@ -92,7 +92,7 @@ export default function NavBar() {
       
       <Magnetic>
         <a 
-          href="/resume/Dhruvin_Patel.pdf" 
+          href="/Resume/Dhruvin_Patel.pdf" 
           download="Dhruvin_Patel_CV.pdf"
           className="relative flex items-center justify-center p-3 md:px-5 md:py-2.5 rounded-full transition-all duration-300 text-black bg-white hover:bg-zinc-200 ml-1 md:ml-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
         >

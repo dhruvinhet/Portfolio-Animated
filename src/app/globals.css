@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: #0a0a0a;
+  --color-foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Hide scrollbar for cleaner Awwwards look, but allow scrolling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f3f;
+}
+
+/* Custom Scrollbar for specific sections (like Github Graph) */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #27272a; /* zinc-800 */
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; /* zinc-700 */
+}
+
+/* ========================================================
+   EASTER EGG STYLES 
+   ======================================================== */
+
+/* Dev Wireframe Mode */
+.dev-mode-active * {
+  outline: 1px solid rgba(16, 185, 129, 0.4) !important;
+  background: rgba(16, 185, 129, 0.02) !important;
+  box-shadow: none !important;
+}
+
+/* Konami CRT Mode */
+@keyframes crt-flicker {
+  0% { opacity: 0.95; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
+}
+
+.crt-mode-active {
+  animation: crt-flicker 0.15s infinite;
+  filter: contrast(1.2) brightness(1.1) saturate(1.5) sepia(0.2) hue-rotate(-10deg);
+}
+
+.crt-mode-active::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 99999;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Boom Explode Mode */
+.boom-mode-active {
+  cursor: crosshair !important;
+}
+.boom-mode-active * {
+  cursor: crosshair !important;
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(1) rotate(0deg) translateZ(0);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  20% {
+    transform: scale(1.1) rotate(-2deg);
+    filter: brightness(2) contrast(1.5);
+  }
+  100% {
+    transform: scale(0) rotate(45deg) translate(0, 500px);
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+.explode-animation {
+  animation: explode 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards !important;
+  pointer-events: none !important;
+}
+
+/* Zero Gravity Mode */
+@keyframes drift {
+  0% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-30px) translateZ(10px) rotate(5deg); }
+  66% { transform: translateY(20px) translateZ(-10px) rotate(-5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.grav-mode-active main > div,
+.grav-mode-active section > div {
+  animation: drift 8s ease-in-out infinite alternate !important;
+  transform-style: preserve-3d;
+}
+
+.grav-mode-active img,
+.grav-mode-active h2,
+.grav-mode-active p {
+  animation: drift 12s ease-in-out infinite reverse !important;
+}
+
+/* Flip Mode */
+.flip-mode-active {
+  transform: rotate(180deg) scaleX(-1) !important;
+  overflow-x: hidden;
+}
+
+/* Rave Mode */
+@keyframes rave-bg {
+  0% { background-color: #ff00ff; filter: hue-rotate(0deg); }
+  50% { background-color: #00ffff; filter: hue-rotate(180deg); }
+  100% { background-color: #ffff00; filter: hue-rotate(360deg); }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.rave-mode-active {
+  animation: rave-bg 0.5s infinite steps(2) !important;
+}
+
+.rave-mode-active * {
+  color: #00ff00 !important;
+  border-color: #ff0000 !important;
+  font-family: "Comic Sans MS", cursive, sans-serif !important;
+  text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff !important;
+  transition: all 0.1s !important;
+}
+
+.rave-mode-active img {
+  animation: heartbeat 0.4s infinite !important;
+  filter: saturate(1000%) contrast(500%) invert(100%) !important;
 }

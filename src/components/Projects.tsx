@@ -1,21 +1,40 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink, Sparkles, Activity } from "lucide-react";
+import { ArrowUpRight, Github, ExternalLink, Sparkles, Activity, AlertTriangle } from "lucide-react";
 
-const FEATURED_PROJECT = {
-  id: 0,
-  title: "ArchitectIQ",
-  category: "Currently Building",
-  description: "ArchitectIQ is a VS Code extension that helps teams map architectural impact before coding by generating architecture-aware prompts, highlighting likely files to change, and providing dependency/impact context. It runs locally in VS Code and emphasizes privacy-first analysis.",
-  techstack: ["TypeScript", "VS Code Extension API", "AI Analysis", "Local Architecture Mapping"],
-  image: "/Projects/architectiq.png",
-  link: "https://marketplace.visualstudio.com/items?itemName=RIGCopilotLabs.architectiq",
-  github: "https://github.com/dhruvinhet/ArchitectIQ",
-  color: "from-blue-400 via-indigo-400 to-purple-500",
-  icon: Activity,
-  installs: "48+ Installs"
-};
+const FEATURED_PROJECTS = [
+  {
+    id: 0,
+    title: "ArchitectIQ",
+    category: "Currently Building",
+    description: "ArchitectIQ is a VS Code extension that helps teams map architectural impact before coding by generating architecture-aware prompts, highlighting likely files to change, and providing dependency/impact context. It runs locally in VS Code and emphasizes privacy-first analysis.",
+    techstack: ["TypeScript", "VS Code Extension API", "AI Analysis", "Local Architecture Mapping"],
+    image: "/Projects/architectiq.png",
+    link: "https://marketplace.visualstudio.com/items?itemName=RIGCopilotLabs.architectiq",
+    github: "https://github.com/dhruvinhet/ArchitectIQ",
+    color: "from-blue-400 via-indigo-400 to-purple-500",
+    icon: Activity,
+    installs: "48+ Installs",
+    linkText: "View Marketplace",
+    isAIGeneratedImage: false
+  },
+  {
+    id: 5,
+    title: "Personal AI Guardian",
+    category: "Currently Building",
+    description: "Developing a local-first cognitive desktop assistant that can understand user workflows through app activity, browser context, OCR-based screen understanding, and semantic memory systems. The project focuses on building an event-driven cognition architecture capable of tracking workflows, reconstructing timelines, detecting stalled work, and providing intelligent contextual assistance without intrusive monitoring.",
+    techstack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "LangGraph", "PaddleOCR", "OpenCV", "Redis", "Electron", "Whisper"],
+    image: "/Projects/personal_ai_guardian.png",
+    link: "https://github.com/dhruvinhet/PersonalAI",
+    github: "https://github.com/dhruvinhet/PersonalAI",
+    color: "from-emerald-400 via-teal-400 to-cyan-400",
+    icon: Activity,
+    installs: "Desktop Copilot",
+    linkText: "View Source",
+    isAIGeneratedImage: true
+  }
+];
 
 const PROJECTS = [
   {
@@ -68,7 +87,7 @@ export default function Projects() {
   return (
     <section className="relative z-20 bg-[#0a0a0a] py-20 md:py-24 px-6 md:px-12 lg:px-24">
       <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent left-0" />
-      
+
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -86,9 +105,11 @@ export default function Projects() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {/* Featured Active Project */}
-          <div className="md:col-span-2">
-            <FeaturedProjectCard project={FEATURED_PROJECT} />
+          {/* Featured Active Projects */}
+          <div className="md:col-span-2 flex flex-col gap-8 md:gap-12">
+            {FEATURED_PROJECTS.map((project) => (
+              <FeaturedProjectCard key={project.id} project={project} />
+            ))}
           </div>
 
           {PROJECTS.map((project, index) => (
@@ -96,7 +117,8 @@ export default function Projects() {
           ))}
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
@@ -145,13 +167,21 @@ function FeaturedProjectCard({ project }: { project: any }) {
 
       {/* Image Section - Half width on Desktop */}
       <div className="relative w-full md:w-[45%] h-64 md:h-auto overflow-hidden bg-zinc-950">
-        <motion.img 
-            src={project.image} 
-            alt={project.title}
-            style={{ x: xSpring, y: ySpring, scale: 1.15 }}
-            className="w-full h-full object-cover object-top transition-all duration-[1000ms] pointer-events-none opacity-60 group-hover:opacity-90 group-hover:scale-105"
-            // Fallback image in case the user hasn't added it yet
-            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2088&auto=format&fit=crop"; }}
+
+        {project.isAIGeneratedImage && (
+          <div className="absolute top-6 left-6 z-20 px-3 py-1.5 rounded-md bg-black/80 border border-yellow-500/50 backdrop-blur-xl flex items-center gap-2 shadow-2xl">
+            <AlertTriangle className="w-4 h-4 text-yellow-400" />
+            <span className="text-[10px] font-bold text-yellow-400 uppercase tracking-wider">Concept Image • AI Generated</span>
+          </div>
+        )}
+
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          style={{ x: xSpring, y: ySpring, scale: 1.15 }}
+          className="w-full h-full object-cover object-top transition-all duration-[1000ms] pointer-events-none opacity-60 group-hover:opacity-90 group-hover:scale-105"
+          // Fallback image in case the user hasn't added it yet
+          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2088&auto=format&fit=crop"; }}
         />
         {/* Gradient fades image into the dark content area seamlessly */}
         <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-zinc-900/40 to-zinc-900/95 md:to-zinc-900/90 pointer-events-none z-10" />
@@ -159,7 +189,7 @@ function FeaturedProjectCard({ project }: { project: any }) {
 
       {/* Content Section */}
       <div className="relative z-20 flex-1 p-8 md:p-12 flex flex-col justify-center bg-zinc-900/90 md:bg-zinc-900/40 md:backdrop-blur-none backdrop-blur-xl">
-        
+
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <span className="inline-flex px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-xs font-bold uppercase tracking-widest text-blue-400 items-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.15)] animate-pulse">
             <Icon className="w-4 h-4" />
@@ -173,7 +203,7 @@ function FeaturedProjectCard({ project }: { project: any }) {
         <h3 className={`text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r ${project.color} tracking-tight mb-5 group-hover:scale-[1.02] origin-left transition-transform duration-500 drop-shadow-lg`}>
           {project.title}
         </h3>
-        
+
         <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-8 max-w-2xl font-medium">
           {project.description}
         </p>
@@ -192,7 +222,7 @@ function FeaturedProjectCard({ project }: { project: any }) {
         {/* Buttons */}
         <div className="mt-auto flex flex-wrap items-center gap-4 relative z-30">
           <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold uppercase tracking-wider text-xs md:text-sm transition-all duration-300 shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] hover:-translate-y-0.5">
-            View Marketplace <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            {project.linkText} <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </a>
           <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3.5 rounded-full bg-zinc-800 border border-zinc-700 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-zinc-300 hover:-translate-y-0.5">
             <Github className="w-5 h-5" />
@@ -213,7 +243,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     // Reverse movement for parallax push
     x.set((e.clientX - centerX) / -15);
     y.set((e.clientY - centerY) / -15);
@@ -241,14 +271,14 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
       className="group relative rounded-[2.5rem] bg-zinc-900/40 border border-zinc-800 flex flex-col backdrop-blur-md overflow-hidden hover:border-zinc-700 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-zinc-900/50 min-h-[450px]"
     >
       <div className="absolute inset-0 overflow-hidden rounded-[2.5rem]">
-         <motion.img 
-            src={project.image} 
-            alt={project.title}
-            style={{ x: xSpring, y: ySpring, scale: 1.15 }}
-            className="w-full h-full object-cover transition-transform duration-[800ms] pointer-events-none"
-         />
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          style={{ x: xSpring, y: ySpring, scale: 1.15 }}
+          className="w-full h-full object-cover transition-transform duration-[800ms] pointer-events-none"
+        />
       </div>
-      
+
       {/* Dark gradient base on top of image to make bottom text readable initially */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-10" />
 
@@ -277,7 +307,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
               {project.title}
             </span>
           </h3>
-          
+
           {/* Scrollable details wrapper */}
           <div className="flex-1 overflow-y-auto mb-4 pr-4 scrollbar-hide space-y-6">
             <div>
@@ -290,7 +320,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-3 block pointer-events-none">Architecture & Details</h4>
               <p className="text-zinc-400 text-sm leading-relaxed pointer-events-none">

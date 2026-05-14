@@ -1,7 +1,21 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink, Sparkles } from "lucide-react";
+import { ArrowUpRight, Github, ExternalLink, Sparkles, Activity } from "lucide-react";
+
+const FEATURED_PROJECT = {
+  id: 0,
+  title: "ArchitectIQ",
+  category: "Currently Building",
+  description: "ArchitectIQ is a VS Code extension that helps teams map architectural impact before coding by generating architecture-aware prompts, highlighting likely files to change, and providing dependency/impact context. It runs locally in VS Code and emphasizes privacy-first analysis.",
+  techstack: ["TypeScript", "VS Code Extension API", "AI Analysis", "Local Architecture Mapping"],
+  image: "/Projects/architectiq.png",
+  link: "https://marketplace.visualstudio.com/items?itemName=RIGCopilotLabs.architectiq",
+  github: "https://github.com/dhruvinhet/ArchitectIQ",
+  color: "from-blue-400 via-indigo-400 to-purple-500",
+  icon: Activity,
+  installs: "48+ Installs"
+};
 
 const PROJECTS = [
   {
@@ -72,6 +86,11 @@ export default function Projects() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {/* Featured Active Project */}
+          <div className="md:col-span-2">
+            <FeaturedProjectCard project={FEATURED_PROJECT} />
+          </div>
+
           {PROJECTS.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
@@ -87,6 +106,101 @@ export default function Projects() {
         }
       `}} />
     </section>
+  );
+}
+
+function FeaturedProjectCard({ project }: { project: any }) {
+  const Icon = project.icon;
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) / -25);
+    y.set((e.clientY - centerY) / -25);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const xSpring = useSpring(x, { stiffness: 100, damping: 25 });
+  const ySpring = useSpring(y, { stiffness: 100, damping: 25 });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative rounded-[2.5rem] bg-zinc-900/40 border border-zinc-800 flex flex-col md:flex-row backdrop-blur-md overflow-hidden hover:border-blue-500/50 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/20 min-h-[450px] md:min-h-[480px]"
+    >
+      {/* Animated Glowing Gradient Overlay on Hover */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-blue-500/0 via-indigo-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 animate-pulse pointer-events-none" />
+
+      {/* Image Section - Half width on Desktop */}
+      <div className="relative w-full md:w-[45%] h-64 md:h-auto overflow-hidden bg-zinc-950">
+        <motion.img 
+            src={project.image} 
+            alt={project.title}
+            style={{ x: xSpring, y: ySpring, scale: 1.15 }}
+            className="w-full h-full object-cover object-top transition-all duration-[1000ms] pointer-events-none opacity-60 group-hover:opacity-90 group-hover:scale-105"
+            // Fallback image in case the user hasn't added it yet
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2088&auto=format&fit=crop"; }}
+        />
+        {/* Gradient fades image into the dark content area seamlessly */}
+        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-zinc-900/40 to-zinc-900/95 md:to-zinc-900/90 pointer-events-none z-10" />
+      </div>
+
+      {/* Content Section */}
+      <div className="relative z-20 flex-1 p-8 md:p-12 flex flex-col justify-center bg-zinc-900/90 md:bg-zinc-900/40 md:backdrop-blur-none backdrop-blur-xl">
+        
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <span className="inline-flex px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-xs font-bold uppercase tracking-widest text-blue-400 items-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.15)] animate-pulse">
+            <Icon className="w-4 h-4" />
+            {project.category}
+          </span>
+          <span className="inline-flex px-3 py-2 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs font-bold text-zinc-300">
+            {project.installs}
+          </span>
+        </div>
+
+        <h3 className={`text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r ${project.color} tracking-tight mb-5 group-hover:scale-[1.02] origin-left transition-transform duration-500 drop-shadow-lg`}>
+          {project.title}
+        </h3>
+        
+        <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-8 max-w-2xl font-medium">
+          {project.description}
+        </p>
+
+        <div>
+          <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-3 block pointer-events-none">Core Tech</h4>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {project.techstack.map((tech: string) => (
+              <span key={tech} className="px-3 py-1.5 rounded-lg bg-zinc-950/80 border border-zinc-800 text-xs font-semibold text-zinc-300 pointer-events-none shadow-inner">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-auto flex flex-wrap items-center gap-4 relative z-30">
+          <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold uppercase tracking-wider text-xs md:text-sm transition-all duration-300 shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] hover:-translate-y-0.5">
+            View Marketplace <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </a>
+          <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-3.5 rounded-full bg-zinc-800 border border-zinc-700 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-zinc-300 hover:-translate-y-0.5">
+            <Github className="w-5 h-5" />
+          </a>
+        </div>
+
+      </div>
+    </motion.div>
   );
 }
 
